@@ -1,0 +1,58 @@
+@Library('jenkins-shared-library') _
+pipeline{
+        agent any 
+        tools
+        {
+        	maven 'M3'
+        	jdk 'java'	
+        }
+        
+stages{
+        stage('Build'){
+         steps{
+         	sh 'mvn compile'
+         }
+       }  
+       
+stage('QA with SonarQube'){
+       steps{
+       	 withSonarQubeEnv('sonar'){
+       	   sh 'mvn clean package sonar:sonar'
+       	 }
+   	}
+       } 
+        
+stage('Check Logs')
+        {
+         
+                steps
+                {
+                 filterLogs ('WARNING',3)       
+                }
+       }         
+stage('Upload War To Nexus'){
+   steps{
+   nexusArtifactUploader artifacts: [
+   [
+   artifactId: 'HelloWorld', 
+   classifier: '',
+   file: 'target/HelloWorld-1.0.0.war', 
+   type: 'war']
+   ], 
+   credentialsId: 'nexus3', 
+   groupId: 'com.wipro.app', 
+   nexusUrl: '192.168.29.122:8081', 
+   nexusVersion: 'nexus3', 
+   protocol: 'http', 
+   repository: 'HelloWorld-Release', 
+   version: '1.0.0'
+                      }
+                }
+ stage('Deploy')
+      {
+      	steps{
+        sh 'ansible-playbook demo.yml'	
+       	        }
+            }   
+        }     
+ }
