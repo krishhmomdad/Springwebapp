@@ -3,8 +3,10 @@ agent any
 
 stages{
     stage('Checkout'){
+         steps{
          git credentialsId: 'myjenkins', url: 'https://github.com/krishhmomdad/Springwebapp.git'
-        }
+         } 
+       }
     stage('Build'){
          steps{
          	sh 'mvn clean package'
