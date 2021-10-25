@@ -9,8 +9,9 @@ stages{
        }
     stage('Build'){
          steps{
+             sh 'mvn -f Webapp/pom.xml clean install'
          	//sh 'mvn clean package'
-            bat ' mvn -f Webapp/pom.xml clean install'
+            //bat ' mvn -f Webapp/pom.xml clean install'
          }
        }  
                
