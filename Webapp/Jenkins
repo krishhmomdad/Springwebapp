@@ -22,7 +22,7 @@ stages{
         sshagent(['tomcat-new']) {
           sh """
           pwd
-          scp -o StrictHostKeyChecking=no var/lib/jenkins/workspace/first pipeline/Webapp/target/HelloWorld-1.0.0.war ubuntu@65.0.183.16:/home/ubuntu/opt/tomcat/webapps
+          scp -o StrictHostKeyChecking=no var/lib/jenkins/workspace/first pipeline/Webapp/target/HelloWorld-1.0.0.war ubuntu@65.0.183.16:/home/ubuntu/opt/tomcat/webapps/
           ssh ubuntu@65.0.183.16 /home/ubuntu/opt/tomcat/bin/shutdown.sh
           ssh ubuntu@65.0.183.16 /home/ubuntu/opt/tomcat/bin/startup.sh
           """
