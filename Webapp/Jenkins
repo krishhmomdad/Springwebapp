@@ -13,9 +13,15 @@ stages{
          	//sh 'mvn clean package'
             //bat ' mvn -f Webapp/pom.xml clean install'
          }
+       }
+   stage('Sonarqube analysis'){
+         steps{
+         withSonarQubeEnv('sonar-token') { 
+      sh 'mvn /usr/share/maven/bin/mvn sonar:sonar'
+         }
        }  
-               
-    stage('Deploy')
+             
+   /* stage('Deploy')
       {
       	steps{
         echo 'deploying'
@@ -28,6 +34,6 @@ stages{
           """
                  }	
        	        }
-            }   
+            }*/   
         }     
  }
